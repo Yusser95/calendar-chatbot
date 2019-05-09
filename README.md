@@ -11,3 +11,4 @@ https://duckling-parse-demo.herokuapp.com/
 # todo
 - scrape more data for calendar intents
 - train intent classification model
+- extract actions info using nlp

@@ -9,5 +9,5 @@ https://duckling-parse-demo.herokuapp.com/
 - python3 app.py
 
 # todo
-- scrap more data for calendar intents
+- scrape more data for calendar intents
 - train intent classification model

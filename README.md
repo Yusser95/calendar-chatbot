@@ -7,3 +7,7 @@ https://duckling-parse-demo.herokuapp.com/
 # installation
 pip3 install requirments.txt
 python3 app.py
+
+# todo
+scrap more data for calendar chatbots
+train intent classification model

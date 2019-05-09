@@ -42,7 +42,15 @@ scheduler.add_job(func=ping_server, trigger='interval',minutes=int(5),id="ping_s
 duckling_wrapper = DucklingWrapper(parse_datetime=True)
 
 
-def duckling_parse(text):    
+def duckling_parse(text):
+    weekend = 'by the end of the weekend'
+    asap = 'the end of the day'
+
+    text += " "
+
+    text = text.replace("the end of the week ",weekend).replace("the end of week ",weekend).replace("end of week ",weekend).replace("end of the week ",weekend)
+    text = text.replace("asap",asap).replace("as soon as possible",asap)
+    print(text)
     result = duckling_wrapper.parse_time(text)
     return result
     

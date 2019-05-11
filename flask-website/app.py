@@ -46,6 +46,8 @@ def duckling_parse(text):
     weekend = 'by the end of the weekend'
     asap = 'the end of the day'
 
+    text = text.lower()
+
     text += " "
 
     text = text.replace("the end of the week ",weekend).replace("the end of week ",weekend).replace("end of week ",weekend).replace("end of the week ",weekend)

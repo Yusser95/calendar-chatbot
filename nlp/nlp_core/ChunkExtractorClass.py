@@ -9,7 +9,7 @@ class ChunkExtractorClass():
     
     def spacy_parse(self ,text):  
         doc = self.nlp(text)
-        noun_chunks = list(doc.noun_chunks)
+        noun_chunks = [w.text for w in doc.noun_chunks]
         return noun_chunks
         
     

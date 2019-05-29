@@ -5,8 +5,11 @@ flask app to extract calendar actions (using regix) and date time (using python-
 https://duckling-parse-demo.herokuapp.com/
 
 # installation
-- pip3 install requirments.txt
-- python3 app.py
+- run pip3 install requirments.txt
+- set training data in examples.json
+- uncomment model = uesr_model_class()
+- uncomment model._train_models()
+- run python3 app.py
 
 # todo
 - scrape more data for calendar intents

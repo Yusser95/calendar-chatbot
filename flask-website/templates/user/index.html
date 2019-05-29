@@ -91,6 +91,7 @@
                    // alert(response.logs);
 
                    var res = JSON.stringify(json);
+                   var cust_ents = JSON.stringify(json.data.custum_ents);
 
                    $('#rules_error_message').empty();
                    // $('#rules_error_message').append('<div role="alert">'+res+'</div>');
@@ -99,13 +100,13 @@
 
                   var text = '';
                   var value = '';
-                  for (i = 0; i < json.data.length; i++) {
+                  for (i = 0; i < json.data.duckling.length; i++) {
 
-                    if (json.data[i]['text'].length > text.length){
+                    if (json.data.duckling[i]['text'].length > text.length){
 
 
-                      text = json.data[i]['text'];
-                      value = JSON.stringify(json.data[i]['value']['value']);
+                      text = json.data.duckling[i]['text'];
+                      value = JSON.stringify(json.data.duckling[i]['value']['value']);
                     }
 
 
@@ -123,6 +124,8 @@
                   $('#rules_error_message').append('<div role="alert"><h4>datetime text : </h4><br>'+text+'</div>');
                   $('#rules_error_message').append('<br>');
                   $('#rules_error_message').append('<div role="alert"><h4>datetime : </h4><br>'+value+'</div>');
+                  $('#rules_error_message').append('<br>');
+                  $('#rules_error_message').append('<div role="alert"><h4>ml model entities : </h4><br>'+cust_ents+'</div>');
                   $('#rules_error_message').append('<br>');
                   $('#rules_error_message').append('<div role="alert"><h4>all_info extracted : </h4><br>'+res+'</div>');
 

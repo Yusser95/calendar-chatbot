@@ -14,7 +14,7 @@ import requests
 import sys
 from flask import  jsonify
 from duckling import DucklingWrapper, Dim
-
+from user_model import user_model_class
 from flask_apscheduler import APScheduler
 
 ######.  init app
@@ -39,7 +39,16 @@ def ping_server():
 scheduler.add_job(func=ping_server, trigger='interval',minutes=int(5),id="ping_server")
 
 
-duckling_wrapper = DucklingWrapper(parse_datetime=True)
+
+
+
+
+
+
+
+# duckling_wrapper = DucklingWrapper(parse_datetime=True)
+model = user_model_class()
+model._load_models()
 
 
 def duckling_parse(text):
@@ -79,17 +88,18 @@ def intent_ner_parse(text):
 
 @app.route("/user/duckling/parse" , methods =['GET',"POST"])
 def instance_name_validator():
-	response = {'data':'null'}
-	text = request.args.get('text')
-	print(text)
+    response = {'data':'null'}
+    text = request.args.get('text')
+    print(text)
+    res = model._parse_text(text)
+    response['data'] = res
+    response['intent'] = res['intent']['intent']['name']
 
 
-	response['data'] = duckling_parse(text)
-	response['intent'] = intent_ner_parse(text)
+    # response['data'] = duckling_parse(text)
+    # response['intent'] = intent_ner_parse(text)
 
-
-	return jsonify(response)
-
+    return jsonify(response)
 
 
 

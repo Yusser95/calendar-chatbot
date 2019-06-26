@@ -48,7 +48,7 @@ scheduler.add_job(func=ping_server, trigger='interval',minutes=int(5),id="ping_s
 
 # duckling_wrapper = DucklingWrapper(parse_datetime=True)
 model = user_model_class()
-model._load_models()
+# model._load_models()
 
 
 def duckling_parse(text):
@@ -93,7 +93,7 @@ def instance_name_validator():
     print(text)
     res = model._parse_text(text)
     response['data'] = res
-    response['intent'] = res['intent']['intent']['name']
+    # response['intent'] = res['intent']['intent']['name']
 
 
     # response['data'] = duckling_parse(text)
@@ -112,5 +112,5 @@ def main():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True, threaded=False)
 

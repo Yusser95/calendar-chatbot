@@ -54,10 +54,10 @@
 <script src={{ url_for('static',filename="plugins/bootstrap/js/bootstrap.bundle.min.js")}}></script>
 
 <!-- parsley.min -->
-<script src={{ url_for('static',filename="plugins/parsley/dist/parsley.min.js")}}></script>
+<!-- <script src={{ url_for('static',filename="plugins/parsley/dist/parsley.min.js")}}></script> -->
 
 <!-- bootstrap-duration-picker -->
-<script src={{ url_for('static',filename="dist/js/bootstrap-duration-picker.js")}}></script>
+<!-- <script src={{ url_for('static',filename="dist/js/bootstrap-duration-picker.js")}}></script> -->
 
 <!-- Select2 -->
 <script src={{ url_for('static',filename="plugins/select2/select2.full.min.js")}}></script>
@@ -100,7 +100,7 @@
 
                   var text = '';
                   var value = '';
-                  for (i = 0; i < json.data.duckling.length; i++) {
+                  for (i = 0; i < json.data.predefined.length; i++) {
 
                     if (json.data.duckling[i]['text'].length > text.length){
 
@@ -119,13 +119,18 @@
                     
                   }
 
-                  $('#rules_error_message').append('<div role="alert"><h4>intent : </h4><br>'+json.intent+'</div>');
+                  Object.keys(json.data.predefined).forEach(function(key) {
+                      console.log(key, json.data.predefined[key]);
+                      $('#rules_error_message').append('<br>');
+                      $('#rules_error_message').append('<div role="alert"><h4>'+key+' : </h4><br>'+JSON.stringify(json.data.predefined[key])+'</div>');
+                  });
+
                   $('#rules_error_message').append('<br>');
-                  $('#rules_error_message').append('<div role="alert"><h4>datetime text : </h4><br>'+text+'</div>');
-                  $('#rules_error_message').append('<br>');
-                  $('#rules_error_message').append('<div role="alert"><h4>datetime : </h4><br>'+value+'</div>');
+                  $('#rules_error_message').append('<div role="alert"><h4>intent : </h4><br>'+JSON.stringify(json.data.custom.intent.intent)+'</div>');
+
                   $('#rules_error_message').append('<br>');
                   $('#rules_error_message').append('<div role="alert"><h4>ml model entities : </h4><br>'+cust_ents+'</div>');
+                  
                   $('#rules_error_message').append('<br>');
                   $('#rules_error_message').append('<div role="alert"><h4>all_info extracted : </h4><br>'+res+'</div>');
 

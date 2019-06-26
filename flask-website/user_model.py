@@ -11,13 +11,98 @@ from resources.ml import CRFsuiteEntityExtractorClass
 from resources.nlp_core import NLPClass
 from pprint import pprint
 import time
+from collections import defaultdict
 
 
-
-class user_model_class():
-	def __init__(self , data_path = "examples.json"):
+class pre_defined_entities():
+	def __init__(self):
 		self.nlp = NLPClass()
 
+		self.all_entities = [
+			## spacy
+			"PERSON",
+			"NORP",
+			"FAC",
+			"ORG",
+			"GPE",
+			"LOC",
+			"PRODUCT",
+			"EVENT",
+			"WORK_OF_ART",
+			"LAW",
+			"LANGUAGE",
+			"DATE",
+			"TIME",
+			"PERCENT",
+			"MONEY",
+			"QUANTITY",
+			"ORDINAL",
+			"CARDINAL",
+
+			## duckling
+			# "phone-number",
+			# "url",
+			# "email",
+			# "duration",
+			# "amount-of-money",
+			# "volume",
+			# "distance",
+			# "ordinal",
+			# "number",
+			# "temperature",
+			"time"
+		]
+
+
+
+		self.entities = [
+			"time",
+			"PERSON",
+			"LOC",
+			"ORG",
+			"GPE"
+		]
+
+	def _set_entities(self,entities):
+		self.entities = entities
+
+	def _get_all_entites(self):
+		return self.all_entities
+
+	def _parse_text(self,text):
+		tic = time.time()
+
+		data = {}
+		data2 = defaultdict(list)
+
+		tmp = self.nlp.parse(text)
+		for k in tmp:
+			if k == "ner":
+				for t in tmp[k]:
+					if t['label'] in self.entities:
+						data2[t['label']].append(t['text'])
+			elif k == "duckling":
+				if 'time' in self.entities:
+					tmptext = ''
+					tmpvalue = ''
+					for i in range(len(tmp['duckling'])):
+						if len(tmp['duckling'][i]['text']) > len(tmptext):
+							tmptext = tmp['duckling'][i]['text']
+							tmpvalue = str(tmp['duckling'][i]['value']['value'])
+
+							data['time'] = {"text":tmptext ,"value":tmpvalue}
+
+		for k in data2:
+			data[k] = data2[k]
+
+
+		toc = time.time()
+
+		print("finished parsing in ( {} ) seconds !! ".format(str(toc-tic)))
+		return data
+
+class custom_entities():
+	def __init__(self, data_path = "examples.json"):
 		with open(data_path, "r") as f:
 			examples = json.load(f)
 
@@ -27,10 +112,10 @@ class user_model_class():
 			print("finished reading train_data : ( {} ) example  !! ".format(str(len(self.train_data.data))))
 
 
-
 		self.intent_featurizer = IntentFeatureExtractorClass(self.train_data)
 		self.intent_model = EmbeddingIntentExtractorClass(self.intent_featurizer)
 		self.entity_model = CRFsuiteEntityExtractorClass()
+
 
 	def _train_models(self):
 		tic = time.time()
@@ -66,11 +151,29 @@ class user_model_class():
 		data['intent'] = self.intent_model._predict(text)
 		data['custum_ents'] = self.entity_model._predict(text)
 
-		tmp = self.nlp.parse(text)
-		for k in tmp:
-			data[k] = tmp[k]
+		toc = time.time()
+
+		print("finished parsing in ( {} ) seconds !! ".format(str(toc-tic)))
+
+		return data
 
 
+class user_model_class():
+	def __init__(self , data_path = "examples.json"):
+		self.cust_entity_extractor = custom_entities(data_path)
+		self.cust_entity_extractor._load_models()
+
+		self.predefined_entity_extractor = pre_defined_entities()
+
+	
+
+
+	def _parse_text(self, text):
+		tic = time.time()
+
+		data = {}
+		data['custom'] = self.cust_entity_extractor._parse_text(text)
+		data['predefined'] = self.predefined_entity_extractor._parse_text(text)
 		toc = time.time()
 
 		print("finished parsing in ( {} ) seconds !! ".format(str(toc-tic)))
@@ -87,8 +190,7 @@ class user_model_class():
 # model = user_model_class()
 # model._train_models()
 # model._save_models()
-# model._load_models()
-# res = model._parse_text("set alarm at 7 am")
+# res = model._parse_text("Amjad lives in Syria set alarm at 7 am")
 # pprint(res)
 
 

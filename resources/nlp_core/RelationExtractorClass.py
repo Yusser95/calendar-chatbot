@@ -2,8 +2,8 @@ import spacy
 
 
 class RelationExtractorClass():
-    def __init__(self , model='en'):
-        self.nlp = spacy.load(model)
+    def __init__(self , model):
+        self.nlp = model
         pass
     
     

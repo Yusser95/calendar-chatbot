@@ -7,11 +7,12 @@ from .RelationExtractorClass import RelationExtractorClass
 
 
 class NLPClass():
-    def __init__(self):
-        self.chunker = ChunkExtractorClass()
-        self.ner_extractor = NERExtractorClass()
-        self.tags_extractor = TagExtractorClass()
-        self.rels_extractor = RelationExtractorClass()
+    def __init__(self, model = 'en_core_web_sm'):
+        self.nlp = spacy.load(model)
+        self.chunker = ChunkExtractorClass(self.nlp)
+        self.ner_extractor = NERExtractorClass(self.nlp)
+        self.tags_extractor = TagExtractorClass(self.nlp)
+        self.rels_extractor = RelationExtractorClass(self.nlp)
     
     
     def spacy_parse(self ,text):        

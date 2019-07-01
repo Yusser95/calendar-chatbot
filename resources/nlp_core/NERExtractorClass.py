@@ -2,8 +2,8 @@ import spacy
 from duckling import DucklingWrapper, Dim
 
 class NERExtractorClass():
-    def __init__(self , model='en'):
-        self.nlp = spacy.load(model)
+    def __init__(self , model):
+        self.nlp = model
         self.duckling_wrapper = DucklingWrapper(parse_datetime=True)
 
 

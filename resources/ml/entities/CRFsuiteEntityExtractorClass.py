@@ -30,7 +30,7 @@ class CRFsuiteEntityExtractorClass():
             "all_possible_transitions":True
         }
         
-        self.nlp = spacy.load('en')
+        self.nlp = spacy.load('en_core_web_sm')
     
     
     

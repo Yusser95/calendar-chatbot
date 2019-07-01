@@ -18,25 +18,25 @@ from user_model import user_model_class
 from flask_apscheduler import APScheduler
 
 ######.  init app
-app = Flask(__name__)
+application = app = Flask(__name__)
 app.secret_key = 'y#S%bbdEErdsbjk'
 app.debug = True
 cwd = os.getcwd()
 
 
-scheduler = APScheduler()
-scheduler.init_app(app)
-scheduler.start()
+# scheduler = APScheduler()
+# scheduler.init_app(app)
+# scheduler.start()
 
 
 
-def ping_server():
-	print("ping erver")
-	r = requests.get("https://duckling-parse-demo.herokuapp.com/")
-	print(r)
+# def ping_server():
+# 	print("ping erver")
+# 	r = requests.get("https://duckling-parse-demo.herokuapp.com/")
+# 	print(r)
 
 
-scheduler.add_job(func=ping_server, trigger='interval',minutes=int(5),id="ping_server")
+# scheduler.add_job(func=ping_server, trigger='interval',minutes=int(5),id="ping_server")
 
 
 
@@ -112,5 +112,7 @@ def main():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True, threaded=False)
+    # app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True, threaded=False)
+    app.debug = True
+    app.run()
 

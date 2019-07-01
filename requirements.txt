@@ -1,0 +1,17 @@
+spacy
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.1.0/en_core_web_sm-2.1.0.tar.gz
+Flask
+gevent
+gunicorn
+requests
+Pillow
+Werkzeug
+Flask-APScheduler
+flask-bootstrap
+duckling==1.8.0
+numpy
+pandas
+scikit-learn
+sklearn-crfsuite
+scipy
+tensorflow

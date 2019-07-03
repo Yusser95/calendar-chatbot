@@ -2,7 +2,7 @@ import spacy
 from duckling import DucklingWrapper, Dim
 from nltk.tag import StanfordNERTagger
 from nltk.tokenize import word_tokenize
-from gazetteer import gazetteer_tag
+from .gazetteer import gazetteer_tag
 
 class NERExtractorClass():
     def __init__(self , model):

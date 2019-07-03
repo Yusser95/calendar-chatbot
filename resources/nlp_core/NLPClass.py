@@ -26,7 +26,7 @@ class NLPClass():
     
     def default_parse(self ,text):        
         tmp = {
-            "ner":self.ner_extractor.parse(text , method="cust_PERSON_spacy"),
+            "ner":self.ner_extractor.parse(text , method="cust_PERSON_stanford"),
             "duckling":self.ner_extractor.duckling_parse(text),
             "chunks":self.chunker.parse(text),
             "tags":self.tags_extractor.parse(text),

@@ -9,8 +9,8 @@ def gazetteer_tag(text):
 	words = word_tokenize(text)
 	tagged_text = []
 	for k in gazetteer:
-		for w.lower() in gazetteer[k]:
-			if k in words:
+		for w in gazetteer[k]:
+			if w.lower() in words:
 				temp = {"text":w ,"label":k}
 				tagged_text.append(temp)
 				

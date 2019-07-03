@@ -91,7 +91,7 @@ class NERExtractorClass():
 
     def stanford_parse(self ,text):
         tokenized_text = word_tokenize(text)
-        classified_text = self.st.tag(tokenized_text)
+        classified_text = self.stanford_ner.tag(tokenized_text)
         ner = []
         for w,t in classified_text:
             tmp = {"text":w,"label":t}

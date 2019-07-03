@@ -8,8 +8,8 @@ class NERExtractorClass():
     def __init__(self , model):
         self.nlp = model
         self.duckling_wrapper = DucklingWrapper(parse_datetime=True)
-        self.stanford_ner = StanfordNERTagger('stanford-tools/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz',
-                       'stanford-tools/stanford-ner-2018-10-16/stanford-ner.jar',
+        self.stanford_ner = StanfordNERTagger('/Users/mac/stanford-tools/stanford-ner-2018-10-16/classifiers/english.all.3class.distsim.crf.ser.gz',
+                       '/Users/mac/stanford-tools/stanford-ner-2018-10-16/stanford-ner.jar',
                        encoding='utf-8')
 
 
@@ -71,7 +71,7 @@ class NERExtractorClass():
         # https://spacy.io/api/annotation#named-entities
         
         ner = self.stanford_parse(text)
-        p_ner = self.spacy_extract_pronuns(text)
+        p_ner = self.spacy_extract_nouns(text)
         g_ner = self.gazetteer_parse(text)
 
         ner += p_ner

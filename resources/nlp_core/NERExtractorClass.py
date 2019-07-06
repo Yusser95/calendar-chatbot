@@ -55,7 +55,7 @@ class NERExtractorClass():
         doc= self.nlp(text)
         persons = []
         for w in doc:
-            if w.pos_ == "NOUN":
+            if w.pos_ == "PRON" and w.text.lower() != "it":
                 tmp = {"text":w.text,"label":"PERSON"}
                 persons.append(tmp)
 

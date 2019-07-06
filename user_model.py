@@ -58,9 +58,8 @@ class pre_defined_entities():
 		self.entities = [
 			"time",
 			"PERSON",
-			"LOC",
-			"ORG",
-			"GPE"
+			"LOCATION",
+			"ORGANIZATION"
 		]
 
 	def _set_entities(self,entities):
@@ -80,7 +79,10 @@ class pre_defined_entities():
 			if k == "ner":
 				for t in tmp[k]:
 					if t['label'] in self.entities:
-						data2[t['label']].append(t['text'])
+						if t['label'] in ['LOCATION','ORGANIZATION']:
+							data2['LOCATION'].append(t['text'])
+						else:
+							data2[t['label']].append(t['text'])
 			elif k == "duckling":
 				if 'time' in self.entities:
 					tmptext = ''
@@ -201,8 +203,6 @@ exs = [
 
 
 model = user_model_class()
-# model._train_models()
-# model._save_models()
 for e in exs:
 	res = model._parse_text(e)
 	pprint(res)

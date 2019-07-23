@@ -63,8 +63,8 @@ class NERExtractorClass():
 
 
 
-    def gazetteer_parse(self, text):
-        ner = gazetteer_tag(text)
+    def gazetteer_parse(self, text ,ner):
+        ner = gazetteer_tag(text ,ner)
         return ner
 
     def cust_person_stanford_parse(self ,text):
@@ -72,9 +72,8 @@ class NERExtractorClass():
         
         ner = self.stanford_parse(text)
         p_ner = self.spacy_extract_nouns(text)
-        g_ner = self.gazetteer_parse(text)
-
         ner += p_ner
+        g_ner = self.gazetteer_parse(text , ner)
         ner += g_ner
         return ner
 
@@ -93,9 +92,15 @@ class NERExtractorClass():
         tokenized_text = word_tokenize(text)
         classified_text = self.stanford_ner.tag(tokenized_text)
         ner = []
+        last_index = 0
         for w,t in classified_text:
-            tmp = {"text":w,"label":t}
-            ner.append(tmp)
+            current_index = tokenized_text.index(w)
+            if current_index-1 == last_index and ner[-1]["label"] == t:
+                ner[-1]["text"] += " " + w
+            else:
+                tmp = {"text":w,"label":t}
+                ner.append(tmp)
+            last_index = current_index
         return ner
 
     def duckling_parse(self, text):

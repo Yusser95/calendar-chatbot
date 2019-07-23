@@ -16,7 +16,7 @@ from flask import  jsonify
 from duckling import DucklingWrapper, Dim
 from user_model import user_model_class
 from flask_apscheduler import APScheduler
-
+from resources.nlp_core import gazetteer_add
 ######.  init app
 application = app = Flask(__name__)
 app.secret_key = 'y#S%bbdEErdsbjk'
@@ -101,6 +101,22 @@ def instance_name_validator():
 
     return jsonify(response)
 
+
+
+@app.route("/user/train/new/person/names" , methods =['GET',"POST"])
+def train_new_person():
+    if request.method == "POST":
+        person = request.json.get('person')
+        # ent_type = request.json.get('ent_type')
+        # if not ent_type:
+            # ent_type = 'words'
+        
+        gazetteer_add(word=person, ent="PERSON" ,ent_type='names')
+        return "trained"
+    # show  one row
+    elif request.method == "GET":
+        return redirect('/')
+    return "404"
 
 
 

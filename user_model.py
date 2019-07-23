@@ -202,11 +202,11 @@ exs = [
 
 
 
-model = user_model_class()
-for e in exs:
-	res = model._parse_text(e)
-	pprint(res)
-	print("\n","-"*40,"\n")
+# model = user_model_class()
+# for e in exs:
+# 	res = model._parse_text(e)
+# 	pprint(res)
+# 	print("\n","-"*40,"\n")
 
 
 

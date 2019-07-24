@@ -36,27 +36,30 @@ def gazetteer_add(word , ent , ent_type='words'):
 def gazetteer_tag(text, ner):
 	doc = nlp(text)
 	words = [w.text for w in doc]
-	print(ner)
+	# print(ner)
 
 	tagged_text = []
 	for k in gazetteer:
+
+		gazetteer[k]["words"].sort(key = lambda s: len(s) ,reverse=True)
+		gazetteer[k]["symbols"].sort(key = lambda s: len(s),reverse=True)
+		gazetteer[k]["names"].sort(key = lambda s: len(s),reverse=True)
+
 		for w in gazetteer[k]["words"]:
-			for word in doc:
-				if all([True if w.lower() not in t['text'].lower() or t['label'] == 'O' else False for t in ner ]):
-					# print(word.text,word.pos_)
-					if w.lower() in word.text.lower():
-						temp = {"text":word.text ,"label":k}
-						tagged_text.append(temp)
+			if all([True if t['label'] == 'O' or w.lower() not in t['text'].lower() else False for t in ner ]):
+				if w.lower() in text.lower():
+					temp = {"text":w ,"label":k}
+					tagged_text.append(temp)
 
 		for w in gazetteer[k]["symbols"]:
-			if all([True if w.lower() not in t['text'].lower() or t['label'] == 'O' else False for t in ner ]):
-				if w in words:
+			if all([True if t['label'] == 'O' or w.lower() not in t['text'].lower() else False for t in ner ]):
+				if w in text:
 					temp = {"text":w ,"label":k}
 					tagged_text.append(temp)
 
 		for w in gazetteer[k]["names"]:
-			if all([True if w.lower() not in t['text'].lower() or t['label'] == 'O' else False for t in ner ]):
-				if w in words:
+			if all([True if t['label'] == 'O' or w.lower() not in t['text'].lower() else False for t in ner ]):
+				if w in text:
 					temp = {"text":w ,"label":k}
 					tagged_text.append(temp)
 

@@ -75,7 +75,34 @@ class NERExtractorClass():
         ner += p_ner
         g_ner = self.gazetteer_parse(text , ner)
         ner += g_ner
-        return ner
+
+        tokenized_text = word_tokenize(text)
+        new_ner = []
+        last_index = 0
+        print(ner)
+
+        for n in ner:
+            ner_text = " ".join([n['text'] for n in new_ner])
+            # print(ner_text)
+            if n['text'].lower() not in ner_text.lower() and n['label'] != 'O':
+                # print(n['text'])
+                if len(n['text'].split())== 1:
+                    current_index = tokenized_text.index(n['text'])
+                    if abs(current_index-last_index)==1 and new_ner[-1]["label"] == n['label']:
+                        if current_index-last_index ==1:
+                            new_ner[-1]["text"] += " " + n['text']
+                        else:
+                            new_ner[-1]["text"] =  n['text'] + " " + new_ner[-1]["text"]
+
+                    else:
+                        tmp = {"text":n['text'],"label":n['label']}
+                        new_ner.append(tmp)
+                    last_index = current_index
+                else:
+                    tmp = {"text":n['text'],"label":n['label']}
+                    new_ner.append(tmp)
+
+        return new_ner
 
 
     def spacy_parse(self ,text):
@@ -92,15 +119,9 @@ class NERExtractorClass():
         tokenized_text = word_tokenize(text)
         classified_text = self.stanford_ner.tag(tokenized_text)
         ner = []
-        last_index = 0
         for w,t in classified_text:
-            current_index = tokenized_text.index(w)
-            if current_index-1 == last_index and ner[-1]["label"] == t:
-                ner[-1]["text"] += " " + w
-            else:
-                tmp = {"text":w,"label":t}
-                ner.append(tmp)
-            last_index = current_index
+            tmp = {"text":w,"label":t}
+            ner.append(tmp)
         return ner
 
     def duckling_parse(self, text):
